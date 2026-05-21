@@ -34,6 +34,24 @@ class OnboardingController extends Controller
 
         $user = Auth::user();
         
+        if (!$user->company_id) {
+            $companyName = $user->name . "'s Workspace";
+            if ($request->role === 'landlord') {
+                $companyName = $user->name . "'s Estate Management";
+            } elseif ($request->role === 'school_admin') {
+                $companyName = $user->name . "'s School Boarding";
+            } elseif ($request->role === 'hostel_warden') {
+                $companyName = $user->name . "'s Hostel Management";
+            }
+            
+            $company = \App\Models\Company::create([
+                'name' => $companyName,
+                'email' => $user->email,
+                'status' => 'active',
+            ]);
+            $user->company_id = $company->id;
+        }
+        
         $user->update([
             'role' => $request->role,
             'country' => $request->country,
@@ -46,6 +64,11 @@ class OnboardingController extends Controller
             'dob' => $request->dob,
             'onboarded' => true,
         ]);
+
+        // Send verification email if not yet verified
+        if (!$user->hasVerifiedEmail()) {
+            $user->sendEmailVerificationNotification();
+        }
 
         return redirect()->route('dashboard');
     }
