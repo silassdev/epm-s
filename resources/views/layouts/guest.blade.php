@@ -5,24 +5,64 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'Hausify') }} Portal</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <!-- Fonts: Outfit (Sans) and JetBrains Mono (Tech HUD) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+        <!-- Inline script to prevent theme flickering on page load -->
+        <script>
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        </script>
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <style>
+            body {
+                font-family: 'Outfit', sans-serif;
+            }
+            .font-mono-tech {
+                font-family: 'JetBrains Mono', monospace;
+            }
+        </style>
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+    <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 antialiased transition-colors duration-300 min-h-screen flex flex-col relative">
+        
+        <!-- Reusable Connected Tiny Squares Mesh Background -->
+        <x-tech-squares />
+
+        <!-- Floating Home Node button on top left -->
+        <div class="absolute top-6 left-6 z-50">
+            <a href="/" class="flex items-center gap-2 group font-mono-tech text-xs uppercase tracking-wider text-slate-600 dark:text-slate-400 hover:text-emerald-500 transition duration-200">
+                <span>&larr; [ BACK_TO_HOME ]</span>
+            </a>
+        </div>
+
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 relative z-10">
+            <!-- Brand Logo -->
+            <div class="mb-6">
+                <a href="/" class="flex flex-col items-center gap-2 group">
+                    <div class="relative flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500 font-black text-white shadow-lg shadow-emerald-500/20 transition-all duration-300 group-hover:scale-105">
+                        H
+                        <div class="absolute top-0.5 left-0.5 w-1 h-1 bg-white/40 rounded-full"></div>
+                    </div>
+                    <span class="font-mono-tech text-xs uppercase tracking-widest text-slate-400 dark:text-slate-500">// AUTH_GATEWAY_NODE</span>
                 </a>
             </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+            <!-- Login / Register Card (Technical Grid themed) -->
+            <div class="w-full sm:max-w-md px-8 py-8 bg-white/80 dark:bg-slate-900/80 backdrop-blur border border-slate-200 dark:border-slate-800/80 shadow-xl sm:rounded-2xl relative overflow-hidden">
+                <!-- Grid decor plus markers -->
+                <div class="absolute top-1.5 left-1.5 text-slate-300 dark:text-slate-700 font-mono text-[9px] select-none pointer-events-none">+</div>
+                <div class="absolute bottom-1.5 right-1.5 text-slate-300 dark:text-slate-700 font-mono text-[9px] select-none pointer-events-none">+</div>
+
                 {{ $slot }}
             </div>
         </div>

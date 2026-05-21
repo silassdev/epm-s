@@ -1,3 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    /* Technical Grid of Connected Squares */
+    .bg-tech-squares-dark {
+        background-image: 
+            linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        background-size: 20px 20px;
+    }
+    
+    .bg-tech-squares-light {
+        background-image: 
+            linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+        background-size: 20px 20px;
+    }
+
+    /* Glowing borders */
+    .border-glow-emerald {
+        box-shadow: 0 0 15px -3px rgba(16, 185, 129, 0.12);
+    }
+    
+    .border-glow-emerald-hover:hover {
+        box-shadow: 0 0 25px -2px rgba(16, 185, 129, 0.25);
+        border-color: rgba(16, 185, 129, 0.4) !important;
+    }
+}
+
+/* Monospace tech typography */
+.font-mono-tech {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    letter-spacing: -0.02em;
+}
+
+/* Custom fade-up effects */
+.fade-up-element {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-up-element.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
