@@ -14,6 +14,11 @@ class CompanyScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
+        // Prevent infinite recursion when resolving the authenticated user
+        if ($model instanceof \App\Models\User && !Auth::hasUser()) {
+            return;
+        }
+
         // Only apply scope if a user is authenticated
         if (Auth::check()) {
             $user = Auth::user();
