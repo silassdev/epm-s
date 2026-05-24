@@ -66,5 +66,35 @@
                 {{ $slot }}
             </div>
         </div>
+
+        <!-- Global Overlapping Dots Loader -->
+        <x-overlapping-dots type="global" text="Syncing Auth Gateway..." />
+
+        <!-- Simple and premium loader trigger script -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const loader = document.getElementById('global-loader');
+                
+                // Show loader on page transition and fade out
+                loader.classList.add('active');
+                setTimeout(() => {
+                    loader.classList.remove('active');
+                }, 450);
+
+                // Show loader when any form is submitted
+                document.querySelectorAll('form').forEach(form => {
+                    form.addEventListener('submit', () => {
+                        loader.classList.add('active');
+                    });
+                });
+
+                // Show loader when Google redirect is clicked
+                document.querySelectorAll('a[href*="auth/google"]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        loader.classList.add('active');
+                    });
+                });
+            });
+        </script>
     </body>
 </html>
