@@ -13,12 +13,17 @@ class Tenant extends Model
     use HasFactory;
 
     protected $fillable = [
-        'company_id', 'first_name', 'last_name', 'email', 'phone', 'gender', 'date_of_birth', 'nationality', 'emergency_contact', 'address', 'photo',
+        'company_id', 'user_id', 'first_name', 'last_name', 'email', 'phone', 'gender', 'date_of_birth', 'nationality', 'emergency_contact', 'address', 'photo',
     ];
 
     protected static function booted()
     {
         static::addGlobalScope(new CompanyScope);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function company(): BelongsTo
